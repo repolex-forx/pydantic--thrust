@@ -1,1 +1,110 @@
-Initializing
+# Repolex Knowledge Graph of pydantic/thrust
+
+RDF knowledge graph data for [pydantic/thrust](https://github.com/pydantic/thrust), parsed by [repolex](https://repolex.ai).
+
+> **Note**: This data is experimental and subject to change without notice.
+
+## How to use this data
+
+The easiest way to get started is to install the [rlex](https://github.com/repolex-ai/rlex) query tool:
+
+```bash
+cargo install --git https://github.com/repolex-ai/rlex
+```
+
+Verify the install:
+
+```bash
+rlex --help
+```
+
+**rlex is designed to be used primarily by LLMs in a terminal.** Start up your favorite AI assistant and ask it to use rlex. It handles the SPARQL — you just ask questions in plain English.
+
+To load this repo's data:
+
+```bash
+rlex download pydantic/thrust
+```
+
+Consult `rlex --help` for other options, including SPARQL queries, HTTP server, and interactive visualization.
+
+## Data structure
+
+All data is stored as gzip-compressed [N-Quads](https://www.w3.org/TR/n-quads/) (`.nq.gz`), a standard RDF format that can be loaded into any triplestore or graph database.
+
+```
+.
+├── aggregate
+│   ├── ast
+│   │   └── 8505b55a97f179e212112d42ee9e1e7fd2ce7015
+│   │       └── chunk-001.nq.gz
+│   └── repolex
+│       └── 8505b55a97f179e212112d42ee9e1e7fd2ce7015
+│           └── chunk-001.nq.gz
+├── blob
+│   ├── 0bb3c2eecfc8eb8eae7f4290d18a1ad5727aba48.nq.gz
+│   ├── 0ce2bca0a42f8fd2e60c778ddb03be16b9e2d320.nq.gz
+│   ├── 1a498f618521ad44f277eaf164fa7f81641ba9e4.nq.gz
+│   ├── 21962163addaaa9c82fd66c78aaa177ab74fbfaf.nq.gz
+│   ├── 2a5644b18eb659525611d12e5ea30224b826d4ad.nq.gz
+│   ├── 42663c983033c71234d5c11a5bddbc09a4f2fdf4.nq.gz
+│   ├── 445e8a33c0b9174a703b28f8c6d2e012ee829af2.nq.gz
+│   ├── 4bda5931e3a1996b5afd9c71592250c52797fe0b.nq.gz
+│   ├── 4e2c072c2b51193cacada46c987285974178f665.nq.gz
+│   ├── 4f28caebf6301b6f636b54b302742e59d1aae5f6.nq.gz
+│   ├── 56a047321c453b28d07a890d87e48c900a69a6cc.nq.gz
+│   ├── 590726afe34d771c3df97df09886b04b44932178.nq.gz
+│   ├── 5ae066e6b435143010f8341d4f360e993c33f5ca.nq.gz
+│   ├── 5b516b856a4caf09757773d0d9dbcd292d5faf15.nq.gz
+│   ├── 7091c45a0b6e94bcdec6f7b7077e91638c383a39.nq.gz
+│   ├── 743b1ca07054ef3cf11eb53908e1a30aff3f0793.nq.gz
+│   ├── 8bcea51d4a1326be62c45e3cfd3bf87ac230bc38.nq.gz
+│   ├── 9ae5c1ef19e048a7daf1e21114be80c4115b2a68.nq.gz
+│   ├── a5fc2020c55e32efd61e7e6d1e64a4a317adff01.nq.gz
+│   ├── a637eb87846d7b0660970c3ecbe015d550240e20.nq.gz
+│   ├── ac61a1b0f757a58369c5f7c10cb3578f6050e2d1.nq.gz
+│   ├── b9067579dcafcf8ae495a36fa507477d6b36f479.nq.gz
+│   ├── bc70a7b07d51b30d782693714468d5394862efd3.nq.gz
+│   ├── bfb4cbcbd4aab4d4345638f9b3b5680326a72085.nq.gz
+│   ├── c05350a7c23cd6ba694631d3caaf462f88abc4ff.nq.gz
+│   ├── c45e539276a5b62e37a44d6ae1c768a92b89416b.nq.gz
+│   ├── d0938792863dbac6d905d408863c2587ee5a67dc.nq.gz
+│   ├── d6ebfc78d892f9728299c33d17806fd7f43d566e.nq.gz
+│   ├── db7f1b066ceb82087762ea47bd3befb6ea62dce5.nq.gz
+│   ├── e02d327ccb9442bec7fc5d05af8cd19337d6431d.nq.gz
+│   ├── e69de29bb2d1d6434b8b29ae775ad8c2e48c5391.nq.gz
+│   ├── f95467811a5b44ea1efb6ff8814d5f237e712fbc.nq.gz
+│   └── fe5f5d3ba06f863f30d311f1acab49f5373286ad.nq.gz
+├── branch
+│   └── branch.nq.gz
+├── commit
+│   └── commit.nq.gz
+├── filetree
+│   └── 8505b55a97f179e212112d42ee9e1e7fd2ce7015.nq.gz
+├── pr
+│   └── pr.nq.gz
+└── tag
+    └── tag.nq.gz
+
+12 directories, 40 files
+```
+
+| Directory | What it contains |
+|-----------|-----------------|
+| `blob/` | Per-file AST graphs, content-addressed by git blob SHA. Each file in the source repo gets its own graph. |
+| `aggregate/ast/` | Combined AST graph per parsed commit. Merges all blob graphs for a snapshot of the entire codebase at that point. |
+| `aggregate/lsp/` | Language Server Protocol enrichment: resolved symbols, definitions, references, and type information. |
+| `aggregate/dataflow/` | Interprocedural data flow edges between functions and modules. |
+| `aggregate/repolex/` | Combined graph (AST + LSP + dataflow) per commit. |
+| `commit/` | Git commit metadata (author, date, message, parent links). |
+| `branch/` | Branch metadata. |
+| `tag/` | Tag metadata. |
+| `filetree/` | File tree snapshots per commit (which files existed and their blob SHAs). |
+| `audit/` | Code architecture and graph audit reports per commit. |
+
+## Source repository
+
+[pydantic/thrust](https://github.com/pydantic/thrust)
+
+---
+*Parsed on 2026-10-11 by [repolex](https://repolex.ai)*
