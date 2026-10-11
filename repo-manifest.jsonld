@@ -8,7 +8,8 @@
     {
       "@id": "https://repolex.ai/r/pydantic/thrust/commit/8505b55a97f179e212112d42ee9e1e7fd2ce7015",
       "git:hexsha": "8505b55a97f179e212112d42ee9e1e7fd2ce7015",
-      "repolex:parseStatus": "ast_complete"
+      "repolex:parseStatus": "parsed",
+      "repolex:parsedAt": "2026-10-11T19:41:45.649599+00:00"
     }
   ]
 }
